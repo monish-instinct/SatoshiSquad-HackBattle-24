@@ -98,10 +98,10 @@ export function LandingPage() {
             Library
           </Link>
           <Link
-            href="#"
-            className="text-sm font-medium hover:text-primary transition-colors">
-            Radio
-          </Link>
+          href="#"
+          className="text-sm font-medium hover:text-primary transition-colors mr-5">
+          Radio
+        </Link>
         </nav>
         <Button className="hidden md:block">Log In</Button>
       </header>
@@ -271,7 +271,6 @@ export function LandingPage() {
             <ul className="space-y-2">
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">For Artists</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Developers</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Advertising</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Investors</Link></li>
             </ul>
           </div>
