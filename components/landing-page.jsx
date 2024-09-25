@@ -234,9 +234,9 @@ export function LandingPage() {
           </div>
         </section>
 
-        {/* MusicHub by the Numbers */}
+        {/* Satoshi Music by the Numbers */}
         <section className="py-16 px-6">
-          <h2 className="text-3xl font-bold text-center mb-10">MusicHub by the Numbers</h2>
+          <h2 className="text-3xl font-bold text-center mb-10">Satoshi Music by the Numbers</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { label: 'Active Users', value: '50M+' },
@@ -316,7 +316,7 @@ export function LandingPage() {
         </div>
         <div className="mt-8 border-t border-gray-700 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 MusicHub. All rights reserved.
+            © 2024 Satoshi Music. All rights reserved.
           </p>
         </div>
       </footer>
