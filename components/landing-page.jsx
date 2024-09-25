@@ -99,9 +99,12 @@ export function LandingPage() {
           </Link>
           <Link
           href="#"
-          className="text-sm font-medium hover:text-primary transition-colors mr-5">
+          className="text-sm font-medium hover:text-primary transition-colors"
+          style={{ marginRight: '20px' }}>
           Radio
         </Link>
+
+
         </nav>
         <Button className="hidden md:block">Log In</Button>
       </header>
