@@ -11,13 +11,14 @@ import { useToast } from "@/hooks/use-toast"
 
 // Mock data for the current song and playlist
 const currentSong = {
-  title: "Neon Dreams",
-  artist: "Luna Echo",
-  album: "Midnight Synthwave",
-  cover: "https://picsum.photos/600/600?random=8",
-  duration: 237, // duration in seconds
-  audioSrc: "https://example.com/path-to-your-audio-file.mp3" // Replace with actual audio file URL
-}
+    title: "Sample Track",
+    artist: "Sample Artist",
+    album: "Sample Album",
+    cover: "https://picsum.photos/600/600?random=8",
+    duration: 200, // duration in seconds
+    audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // Use one of the trial links here
+  }
+  
 
 const playlist = [
   { title: "Neon Dreams", artist: "Luna Echo", duration: 237 },
@@ -99,10 +100,15 @@ const Page = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary p-6 md:p-12">
-      <header className="mb-12">
+      <header className="flex justify-between items-center mb-8">
         <Link href="/" className="text-2xl font-bold text-primary">
-          MusicHub
+          Satoshi Music
         </Link>
+        <nav className="space-x-4">
+          <Link href="/playlistview">
+            <Button variant="ghost">Dashboard</Button>
+          </Link>
+        </nav>
       </header>
       <main className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
