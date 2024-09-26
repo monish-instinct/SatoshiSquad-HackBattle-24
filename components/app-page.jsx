@@ -1,13 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Slider } from "@/components/ui/slider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Play, Pause, SkipForward, SkipBack, Volume2, Search, Repeat, Shuffle } from "lucide-react";
-import Link from "next/link"
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { Play, SkipForward, SkipBack, Volume2, Search, Repeat, Shuffle } from "lucide-react";
 
 const songs = [
   { title: "Bohemian Rhapsody", artist: "Queen", cover: "https://rnwvfxlxmvvmzgbcbqbr.supabase.co/storage/v1/object/public/images/queen-bohemian-rhapsody.jpg" },
@@ -23,40 +20,6 @@ const artists = [
 ]
 
 export function Page() {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [volume, setVolume] = useState(50)
-  const [progress, setProgress] = useState(0)
-  const { data: session } = useSession()
-
-  const togglePlay = () => setIsPlaying(!isPlaying)
-
-  const nextSong = () => {
-    setCurrentSongIndex((prevIndex) => (prevIndex + 1) % songs.length)
-    setProgress(0)
-  }
-
-  const prevSong = () => {
-    setCurrentSongIndex((prevIndex) => (prevIndex - 1 + songs.length) % songs.length)
-    setProgress(0)
-  }
-
-  useEffect(() => {
-    let interval
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prevProgress) => {
-          if (prevProgress >= 100) {
-            nextSong()
-            return 0
-          }
-          return prevProgress + 1
-        })
-      }, 1000) // Update progress every second
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying])
-
   return (
     (<div
       className="flex flex-col min-h-screen bg-gradient-to-b from-background to-secondary">
@@ -93,17 +56,9 @@ export function Page() {
             Radio
           </Link>
         </nav>
-        {session ? (
-          <div className="flex items-center space-x-4">
-            <Avatar>
-              <AvatarImage src={session.user?.image || ''} alt={session.user?.name || ''} />
-              <AvatarFallback>{session.user?.name?.[0] || 'U'}</AvatarFallback>
-            </Avatar>
-            <Button onClick={() => signOut()}>Log Out</Button>
-          </div>
-        ) : (
-          <Button onClick={() => signIn('google')}>Log In with Google</Button>
-        )}
+        <Link href="/dashboard">
+          <Button>Login</Button>
+        </Link>
       </header>
       <main className="flex-grow">
         <section
@@ -116,14 +71,11 @@ export function Page() {
             className="text-xl text-white mb-8 animate-fade-in-up animation-delay-200">
             Stream millions of songs and podcasts. Start listening for free.
           </p>
-          {!session && (
-            <Button
-              size="lg"
-              className="bg-white text-purple-600 hover:bg-gray-100 animate-fade-in-up animation-delay-400"
-              onClick={() => signIn('google')}>
-              Start Free Trial with Google
-            </Button>
-          )}
+          <Button
+            size="lg"
+            className="bg-white text-purple-600 hover:bg-gray-100 animate-fade-in-up animation-delay-400">
+            Start Free Trial
+          </Button>
         </section>
 
         <section className="py-16 px-6">
@@ -147,17 +99,17 @@ export function Page() {
           <div className="max-w-md mx-auto bg-background p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-semibold">{songs[currentSongIndex].title}</h3>
-                <p className="text-sm text-muted-foreground">{songs[currentSongIndex].artist}</p>
+                <h3 className="font-semibold">{songs[0].title}</h3>
+                <p className="text-sm text-muted-foreground">{songs[0].artist}</p>
               </div>
               <Avatar className="w-16 h-16">
-                <AvatarImage src={songs[currentSongIndex].cover} alt="Album Cover" />
+                <AvatarImage src={songs[0].cover} alt="Album Cover" />
                 <AvatarFallback>AC</AvatarFallback>
               </Avatar>
             </div>
             <div className="mb-4">
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
-                <div className="h-full bg-primary" style={{ width: `${progress}%` }} />
+                <div className="h-full bg-primary" style={{ width: '50%' }} />
               </div>
             </div>
             <div className="flex items-center justify-center space-x-4 mb-4">
@@ -165,15 +117,15 @@ export function Page() {
                 <Shuffle className="h-4 w-4" />
                 <span className="sr-only">Shuffle</span>
               </Button>
-              <Button size="icon" variant="ghost" onClick={prevSong}>
+              <Button size="icon" variant="ghost">
                 <SkipBack className="h-4 w-4" />
                 <span className="sr-only">Previous</span>
               </Button>
-              <Button size="icon" onClick={togglePlay}>
-                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                <span className="sr-only">{isPlaying ? 'Pause' : 'Play'}</span>
+              <Button size="icon">
+                <Play className="h-4 w-4" />
+                <span className="sr-only">Play</span>
               </Button>
-              <Button size="icon" variant="ghost" onClick={nextSong}>
+              <Button size="icon" variant="ghost">
                 <SkipForward className="h-4 w-4" />
                 <span className="sr-only">Next</span>
               </Button>
@@ -184,12 +136,7 @@ export function Page() {
             </div>
             <div className="flex items-center space-x-2">
               <Volume2 className="h-4 w-4" />
-              <Slider
-                value={[volume]}
-                onValueChange={(newVolume) => setVolume(newVolume[0])}
-                max={100}
-                step={1}
-                className="w-full" />
+              <Input type="range" className="w-full" />
             </div>
           </div>
         </section>

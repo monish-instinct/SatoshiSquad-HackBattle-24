@@ -1,10 +1,10 @@
 import React from 'react';
-import { LandingPage } from '@/components/landing-page'; // Ensure this matches the exported component name
+import { ListenPage } from '@/components/app-listen-page'; // Ensure this matches the exported component name
 
 export default function Page() { 
   return (
     <main className='min-h-screen'>
-      <LandingPage /> {/* Change Animation to LandingPage */}
+      <ListenPage /> {/* Change Animation to LandingPage */}
     </main>
   );
 }
