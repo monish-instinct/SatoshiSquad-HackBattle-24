@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -16,6 +16,7 @@ const currentSong = {
   album: "Midnight Synthwave",
   cover: "https://picsum.photos/600/600?random=8",
   duration: 237, // duration in seconds
+  audioSrc: "https://example.com/path-to-your-audio-file.mp3" // Replace with actual audio file URL
 }
 
 const playlist = [
@@ -34,22 +35,41 @@ const Page = () => {
   const [isRepeating, setIsRepeating] = useState(false)
   const [donationAmount, setDonationAmount] = useState('')
   const { toast } = useToast()
+  
+  const audioRef = useRef(new Audio(currentSong.audioSrc)) // Create a ref for the audio element
 
   useEffect(() => {
-    let interval
+    const audio = audioRef.current
+
+    // Set volume
+    audio.volume = volume / 100
+
     if (isPlaying) {
-      interval = setInterval(() => {
+      audio.play()
+    } else {
+      audio.pause()
+    }
+
+    // Update current time every second
+    const interval = setInterval(() => {
+      if (isPlaying) {
         setCurrentTime((prevTime) => {
           if (prevTime >= currentSong.duration) {
             setIsPlaying(false)
+            audio.pause()
             return 0
           }
           return prevTime + 1
         })
-      }, 1000)
+      }
+    }, 1000)
+
+    // Cleanup function
+    return () => {
+      audio.pause()
+      clearInterval(interval)
     }
-    return () => clearInterval(interval);
-  }, [isPlaying])
+  }, [isPlaying, volume])
 
   const togglePlay = () => setIsPlaying(!isPlaying)
   const toggleShuffle = () => setIsShuffled(!isShuffled)
@@ -191,7 +211,7 @@ const Page = () => {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
 export default Page;
